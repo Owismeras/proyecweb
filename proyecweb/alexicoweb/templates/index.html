@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analizador Léxico</title>  
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="contenedor">
+        <!-- Formulario para ingresar el código -->
+        <form method="POST">
+            <div class="input-container">
+                <textarea name="code" class="code-input" placeholder="Inserta tu código aquí..."></textarea>
+            </div>
+            <button type="submit" class="analyze-button">Analizar</button>
+        </form>
+        
+        <!-- Contenedor para mostrar los resultados -->
+        <div class="contenedor_2">
+            {% if tokens %}
+                <p>Se encontraron los siguientes tokens:</p>
+            {% else %}
+                <p>No se encontraron tokens</p>
+            {% endif %}
+        </div>
+        
+        <!-- Tabla para mostrar los tokens, valores y líneas -->
+        <div class="contenedor_tabla">
+            <table>
+                {% if tokens %}
+                    <tr>
+                        <th>Tipo</th>
+                        <th>Valor</th>
+                        <th>Línea</th>
+                    </tr>
+                    {% for token in tokens %}
+                    <tr>
+                        <td><pre><code>{{ token[0] }}</code></pre></td>
+                        <td><pre><code>{{ token[1] }}</code></pre></td>
+                        <td><pre><code>{{ token[2] }}</code></pre></td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr><td colspan="3">No se encontraron tokens</td></tr>
+                {% endif %}
+            </table>
+        </div>
+        <div class="contadores">
+            <h2>Conteo de Tokens</h2>
+            <ul>
+                {% if tokens %}
+                    {% for tipo, numero in contador.items() %}
+                    <li>{{ tipo }}: {{ numero }}</li>
+                    {% endfor %}
+                {% else %}
+                    <tr><td colspan="3">No se encontraron tokens</td></tr>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
